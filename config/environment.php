@@ -56,11 +56,11 @@ class Environment {
         $defaults = [
             'APP_ENV' => 'development',
             'APP_DEBUG' => 'true',
-            'APP_URL' => 'http://localhost/capacitar-t.com.mx',
+            'APP_URL' => 'http://capacitar-t.com',
             'DB_HOST' => 'localhost',
-            'DB_NAME' => 'capacitar_t_mx',
-            'DB_USER' => 'root',
-            'DB_PASS' => '',
+            'DB_NAME' => 'wp_capacitart_mvvm',
+            'DB_USER' => 'wp_capacitart',
+            'DB_PASS' => 'M3x1c@n0$2026',
             'DB_CHARSET' => 'utf8mb4',
             'SESSION_TIMEOUT' => '7200',
             'PASSWORD_MIN_LENGTH' => '8'

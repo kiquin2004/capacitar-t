@@ -30,22 +30,7 @@ abstract class ViewModelBase {
         $this->data = array_merge($this->data, $data);
     }
 
-    // View rendering
-    protected function view($viewFile, $data = []) {
-        // Merge ViewModel data with passed data
-        $viewData = array_merge($this->data, $data);
-        
-        // Extract variables for view
-        extract($viewData);
-        
-        // Include view file
-        $viewPath = "views/{$viewFile}.php";
-        if (file_exists($viewPath)) {
-            include $viewPath;
-        } else {
-            throw new Exception("View file not found: {$viewPath}");
-        }
-    }
+    // View rendering - handled by method at end of class
 
     protected function json($data, $statusCode = 200) {
         http_response_code($statusCode);
