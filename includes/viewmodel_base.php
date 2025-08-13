@@ -30,8 +30,8 @@ abstract class ViewModelBase {
         $this->data = array_merge($this->data, $data);
     }
 
-    // View rendering
-    protected function view($viewFile, $data = []) {
+    // View rendering (legacy method for backwards compatibility)
+    protected function renderView($viewFile, $data = []) {
         // Merge ViewModel data with passed data
         $viewData = array_merge($this->data, $data);
         
@@ -296,13 +296,16 @@ abstract class ViewModelBase {
         ];
     }
     
-    // View rendering method
+    // Main view rendering method
     protected function view($viewPath, $data = null) {
         // Extract data for the view
         if ($data === null) {
             $data = $this->data;
         }
-        extract($data);
+        
+        // Merge with instance data
+        $viewData = array_merge($this->data, (array)$data);
+        extract($viewData);
         
         // Include the view file
         $viewFile = VIEW_PATH . '/' . $viewPath . '.php';

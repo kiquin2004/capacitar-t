@@ -2,6 +2,12 @@
 // Load environment configuration
 require_once __DIR__ . '/environment.php';
 
+// Normalize environment to a constant used below
+if (!defined('ENVIRONMENT')) {
+    $appEnv = Environment::get('APP_ENV', 'development');
+    define('ENVIRONMENT', $appEnv === 'development' ? 'development' : 'production');
+}
+
 // Database Configuration (from environment)
 define('DB_HOST', Environment::get('DB_HOST', 'localhost'));
 define('DB_NAME', Environment::get('DB_NAME', 'capacitar_t_mx'));
@@ -58,14 +64,15 @@ define('ILCOR_CERTIFIED', true); // International Liaison Committee on Resuscita
 date_default_timezone_set('America/Mexico_City');
 setlocale(LC_TIME, 'es_MX.UTF-8', 'es_MX', 'spanish');
 
-// Error Reporting
-if (defined('ENVIRONMENT') && ENVIRONMENT === 'development') {
+// Error Reporting (use ENVIRONMENT constant derived from .env)
+if (ENVIRONMENT === 'development') {
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
 } else {
     ini_set('display_errors', 0);
     ini_set('log_errors', 1);
+    if (!is_dir(__DIR__ . '/../logs')) { @mkdir(__DIR__ . '/../logs', 0777, true); }
     ini_set('error_log', __DIR__ . '/../logs/error.log');
     error_reporting(E_ERROR | E_WARNING | E_PARSE);
 }
