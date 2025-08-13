@@ -4,13 +4,13 @@ require_once __DIR__ . '/environment.php';
 
 // Database Configuration (from environment)
 define('DB_HOST', Environment::get('DB_HOST', 'localhost'));
-define('DB_NAME', Environment::get('DB_NAME', 'capacitar_t_mx'));
-define('DB_USER', Environment::get('DB_USER', 'root'));
-define('DB_PASS', Environment::get('DB_PASS', ''));
+define('DB_NAME', Environment::get('DB_NAME', 'wp_capacitart_mvvm'));
+define('DB_USER', Environment::get('DB_USER', 'wp_capacitart'));
+define('DB_PASS', Environment::get('DB_PASS', 'M3x1c@n0$2026'));
 define('DB_CHARSET', Environment::get('DB_CHARSET', 'utf8mb4'));
 
 // Site Configuration (from environment)
-define('SITE_URL', Environment::get('APP_URL', 'http://localhost/capacitar-t.com.mx'));
+define('SITE_URL', Environment::get('APP_URL', 'http://capacitar-t.com'));
 define('SITE_NAME', 'Capacitar-T México');
 define('SITE_DESCRIPTION', 'Centro de Capacitación Médica y Primeros Auxilios - Formamos profesionales de la salud con los más altos estándares');
 define('SITE_KEYWORDS', 'capacitación médica, primeros auxilios, BLS, ACLS, PALS, stop the bleed, heartsaver, emergencias médicas, México');
@@ -32,7 +32,7 @@ define('SMTP_HOST', 'smtp.gmail.com');
 define('SMTP_PORT', 587);
 define('SMTP_USERNAME', '');
 define('SMTP_PASSWORD', '');
-define('FROM_EMAIL', 'info@capacitar-t.com.mx');
+define('FROM_EMAIL', 'info@capacitar-t.com');
 define('FROM_NAME', 'Capacitar-T México');
 
 // Security Configuration
@@ -116,3 +116,4 @@ define('CC_IMAGE_SOURCES', [
     'wikimedia' => 'https://commons.wikimedia.org'
 ]);
 ?>
+

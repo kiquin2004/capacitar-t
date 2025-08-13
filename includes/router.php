@@ -85,7 +85,7 @@ class Router {
             // Format: 'ViewModelClass@method'
             list($viewModelClass, $method) = explode('@', $handler);
             
-            $viewModelFile = CONTROLLER_PATH . "/{$viewModelClass}.php";
+            $viewModelFile = ROOT_PATH . "/viewmodels/{$viewModelClass}.php";
             if (!file_exists($viewModelFile)) {
                 throw new Exception("ViewModel file not found: {$viewModelFile}");
             }
@@ -116,7 +116,7 @@ class Router {
         http_response_code(404);
         
         // Try to load 404 ViewModel
-        $errorViewModelFile = CONTROLLER_PATH . '/ErrorViewModel.php';
+        $errorViewModelFile = ROOT_PATH . '/viewmodels/ErrorViewModel.php';
         if (file_exists($errorViewModelFile)) {
             require_once $errorViewModelFile;
             $errorViewModel = new ErrorViewModel();

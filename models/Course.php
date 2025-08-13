@@ -92,6 +92,39 @@ class Course extends BaseModel {
         return $this->db->fetchOne($sql, [$slug]);
     }
 
+    // Get course with full details including modules, equipment, schedules
+    public function getWithDetails($courseId) {
+        $course = $this->findById($courseId);
+        if (!$course) {
+            return null;
+        }
+        
+        // Get category information
+        $sql = "SELECT c.*, cat.name as category_name, cat.color as category_color,
+                       cat.icon as category_icon, cat.slug as category_slug, cat.course_type
+                FROM courses c 
+                JOIN course_categories cat ON c.category_id = cat.id 
+                WHERE c.id = ?";
+        
+        $course = $this->db->fetchOne($sql, [$courseId]);
+        
+        if ($course) {
+            // Get modules
+            $course['modules'] = $this->getModules($courseId);
+            
+            // Get equipment
+            $course['equipment'] = $this->getEquipment($courseId);
+            
+            // Get upcoming schedules
+            $course['schedules'] = $this->getSchedules($courseId);
+            
+            // Get related courses
+            $course['related'] = $this->getRelated($courseId, $course['category_id']);
+        }
+        
+        return $course;
+    }
+
     // Get course modules
     public function getModules($courseId) {
         $sql = "SELECT * FROM course_modules 
@@ -130,19 +163,33 @@ class Course extends BaseModel {
         return $this->db->fetchAll($sql, [$courseId]);
     }
 
-    // Get upcoming schedules across all courses
-    public function getUpcomingSchedules($limit = 6) {
+    // Get upcoming schedules across all courses or for specific course
+    public function getUpcomingSchedules($limit = 6, $courseId = null) {
         $sql = "SELECT cs.*, c.title as course_title, c.slug as course_slug,
-                       c.course_code, c.duration_hours,
-                       cat.name as category_name, cat.color as category_color
+                       c.course_code, c.duration_hours, c.price,
+                       cat.name as category_name, cat.color as category_color,
+                       CONCAT(u.first_name, ' ', u.last_name) as instructor_name
                 FROM course_schedules cs
                 JOIN courses c ON cs.course_id = c.id
                 JOIN course_categories cat ON c.category_id = cat.id
-                WHERE cs.start_date >= CURDATE() AND cs.status = 'scheduled' AND c.status = 'published'
-                ORDER BY cs.start_date, cs.start_time
-                LIMIT ?";
+                LEFT JOIN users u ON cs.instructor_id = u.id
+                WHERE cs.start_date >= CURDATE() AND cs.status = 'scheduled' AND c.status = 'published'";
         
-        return $this->db->fetchAll($sql, [$limit]);
+        $params = [];
+        
+        if ($courseId !== null) {
+            $sql .= " AND cs.course_id = ?";
+            $params[] = $courseId;
+        }
+        
+        $sql .= " ORDER BY cs.start_date, cs.start_time";
+        
+        if ($limit !== null) {
+            $sql .= " LIMIT ?";
+            $params[] = $limit;
+        }
+        
+        return $this->db->fetchAll($sql, $params);
     }
 
     // Get courses by medical specialization
