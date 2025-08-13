@@ -3,7 +3,7 @@
 Sistema integral de capacitación médica especializado en cursos BLS, ACLS, PALS y certificaciones AHA para profesionales de la salud, padres, maestros y personal de brigadas.
 
 ## 📋 Características
-
+ "Testing a change "
 - **Arquitectura MVVM en PHP** - Separación clara de lógica y presentación
 - **Cursos Médicos Certificados AHA** - BLS, ACLS, PALS, Stop the Bleed, Heartsaver
 - **Tres Líneas Especializadas:**
